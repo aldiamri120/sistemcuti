@@ -354,7 +354,6 @@ NIK : <?= $data['nip'] ?>
 
         </table>
     </div>
-    <!-- KA -->
     <footer></footer>
     <div class="container mt-2">
         <table class="table" id="tabl">
@@ -387,17 +386,17 @@ NIK : <?= $data['nip'] ?>
 
 </pre>
                         <img src="
-                        <?= $data['ttd_1'] ?>" width="70px">
+                        <?= $data['ttd_2'] ?>" width="70px">
                         <br>
                         <br>
                         <?php if (str_contains($data['verifikator_1'], "Dilihat")) : ?>
-                            <?php $nk = strip_tags(str_replace("pengawas", " ", str_replace("Dilihat oleh", " ", $data['verifikator_1']))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <?php $nk = strip_tags(str_replace("pengawas", " ", str_replace("Dilihat oleh", " ", $data['verifikator_2']))) ?>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php else : ?>
-                            <?php $nk = strip_tags(str_replace("pengawas", " ", str_replace("Ditolak oleh", " ", $data['verifikator_1']))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <?php $nk = strip_tags(str_replace("pengawas", " ", str_replace("Ditolak oleh", " ", $data['verifikator_2']))) ?>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php endif ?>
 
                     </td>
@@ -406,7 +405,8 @@ NIK : <?= $data['nip'] ?>
 
         </table>
     </div>
-    <!-- kasatlak -->
+    <!-- v2 -->
+
     <div class="container mt-2">
         <table class="table" id="tabl">
             <thead>
@@ -434,7 +434,7 @@ NIK : <?= $data['nip'] ?>
 
                 <tr>
                     <td class="text-center" colspan=2>
-                        <pre>Pengawas
+                        <pre>KASATLAK
 
 </pre>
                         <img src="
@@ -443,12 +443,12 @@ NIK : <?= $data['nip'] ?>
                         <br>
                         <?php if (str_contains($data['verifikator_2'], "Dilihat")) : ?>
                             <?php $nk = strip_tags(str_replace("kasatlak", " ", str_replace("Dilihat oleh", " ", $data['verifikator_2']))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php else : ?>
-                            <?php $nk = strip_tags(str_replace("kasatlak", " ", str_replace("Ditolak oleh", " ", $data['verifikator_']))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <?php $nk = strip_tags(str_replace("kasatlak", " ", str_replace("Ditolak oleh", " ", $data['verifikator_2']))) ?>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php endif ?>
 
                     </td>
@@ -457,12 +457,13 @@ NIK : <?= $data['nip'] ?>
 
         </table>
     </div>
-    <!-- pptk PJLP -->
+    <!-- v3 -->
+
     <div class="container mt-2">
         <table class="table" id="tabl">
             <thead>
                 <tr>
-                    <th colspan=2>VII PERTIMBANGAN LANGSUNG</th>
+                    <th colspan=2>VIII PERTIMBANGAN LANGSUNG</th>
                 </tr>
             </thead>
             <tbody>
@@ -485,21 +486,21 @@ NIK : <?= $data['nip'] ?>
 
                 <tr>
                     <td class="text-center" colspan=2>
-                        <pre>Pengawas
+                        <pre>PPTK PJLP
 
 </pre>
                         <img src="
-                        <?= $data['ttd_1'] ?>" width="70px">
+                        <?= $data['ttd_3'] ?>" width="70px">
                         <br>
                         <br>
                         <?php if (str_contains($data['verifikator_3'], "Dilihat")) : ?>
                             <?php $nk = strip_tags(str_replace("pptk pjlp", " ", str_replace("Dilihat oleh", " ", $data['verifikator_3']))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php else : ?>
                             <?php $nk = strip_tags(str_replace("pptk pjlp", " ", str_replace("Ditolak oleh", " ", $data['verifikator_3']))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php endif ?>
 
                     </td>
@@ -508,12 +509,13 @@ NIK : <?= $data['nip'] ?>
 
         </table>
     </div>
-    <!-- kasubag  -->
+    <!-- TU -->
+
     <div class="container mt-2">
         <table class="table" id="tabl">
             <thead>
                 <tr>
-                    <th colspan=2>VII PERTIMBANGAN LANGSUNG</th>
+                    <th colspan=2>IX PERTIMBANGAN LANGSUNG</th>
                 </tr>
             </thead>
             <tbody>
@@ -545,12 +547,12 @@ NIK : <?= $data['nip'] ?>
                         <br>
                         <?php if (str_contains($data['approval_1'], "Dilihat")) : ?>
                             <?php $nk = strip_tags(str_replace("kasubbag tu", " ", str_replace("Dilihat oleh", " ", $data['approval_1']))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php else : ?>
                             <?php $nk = strip_tags(str_replace("kasubbag tu", " ", str_replace("Ditolak oleh", " ", $data['approval_1']))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php endif ?>
 
                     </td>
@@ -564,7 +566,7 @@ NIK : <?= $data['nip'] ?>
         <table class="table" id="tabl">
             <thead>
                 <tr>
-                    <th colspan=2>VIII KEPUTUSAN PEJABAT YANG BERWENANG MEMBERIKAN CUTI</th>
+                    <th colspan=2>X KEPUTUSAN PEJABAT YANG BERWENANG MEMBERIKAN CUTI</th>
                 </tr>
             </thead>
             <tbody>
@@ -597,12 +599,13 @@ Kesehatan Hewan dan Peternakan
                         <br>
                         <?php if (str_contains($data['approval_2'], "Disetujui")) : ?>
                             <?php $nk = strtoupper(strip_tags(str_replace("ka pusyankeswannak", " ", str_replace("Disetujui oleh", " ", $data['approval_2'])))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
+
                         <?php else : ?>
                             <?php $nk = strtoupper(strip_tags(str_replace("ka pusyankeswannak", " ", str_replace("Ditolak oleh", " ", $data['approval_2'])))) ?>
-                            <p><?= strtoupper(explode(" ", $nk)[1]) ?></p>
-                            <p>NIK : <?= explode(" ", $nk)[2] ?></p>
+                            <p><?= strtoupper(preg_replace('/[^a-zA-Z]/', ' ', $nk)) ?></p>
+                            <p>NIK : <?= strtoupper(preg_replace('/[^0-9]/', ' ', $nk)) ?></p>
                         <?php endif ?>
 
 

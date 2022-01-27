@@ -92,7 +92,6 @@
         <!-- end page title -->
         <script>
         $(document).ready(function() {
-            <?php if (session()->get('nama_jabatan') == 'ka pusyankeswannak' || session()->get('nama_jabatan') == 'admin') : ?>
             $('#scroll-horizontal-datatable').DataTable({
 
                 dom: 'Bfrtip',
@@ -100,9 +99,6 @@
                     'copy', 'excel', 'pdf', 'print'
                 ]
             });
-            <?php else : ?>
-            $('#scroll-horizontal-datatable').DataTable();
-            <?php endif ?>
         });
         </script>
     </div>

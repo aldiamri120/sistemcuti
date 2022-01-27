@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col">
                                 <span class="account-user-avatar">
-                                    <img src="<?= strtoupper(session()->foto) ?>" alt="user-image"
+                                    <img src="<?= session()->foto ?>" alt="user-image"
                                         class="rounded-circle">
 
                                 </span>

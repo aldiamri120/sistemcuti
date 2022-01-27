@@ -33,12 +33,19 @@ class Home extends BaseController
         if ($this->cekAuth->cek() == 0) {
             return redirect()->to(base_url('/'));
         }
+        if(str_contains($this->session->nama_jabatan, "kasubbag") || str_contains($this->session->nama_jabatan, "pengawas") || str_contains($this->session->nama_jabatan, "pptk") ||str_contains($this->session->nama_jabatan, "kasatlak") ){
+            return redirect()->to(base_url('home/permintaan-cuti'));
+        }
         // count total users as pegawai 
         $total_pegawai = $this->pegawai->countAll();
         $total_divisi = $this->jabatan->countAll();
 
         // data cuti
-        $data_cuti = $this->cuti->join('user', 'user.id_user = permintaan_cuti.id_user')->join('jabatan', 'user.id_jabatan = jabatan.id_jabatan')->where('lokasi_kerja', $this->session->wilayah)->notLike('approval_2', 'menunggu')->find();
+        if ($this->session->wilayah == "semua lokasi") {
+            $data_cuti = $this->cuti->join('user', 'user.id_user = permintaan_cuti.id_user')->join('jabatan', 'user.id_jabatan = jabatan.id_jabatan')->notLike('approval_2', 'menunggu')->find();
+        } else {
+            $data_cuti = $this->cuti->join('user', 'user.id_user = permintaan_cuti.id_user')->join('jabatan', 'user.id_jabatan = jabatan.id_jabatan')->where('lokasi_kerja', $this->session->wilayah)->notLike('approval_2', 'menunggu')->find();
+        }
 
         $data = [
             'title' => 'Dashboard',
@@ -61,7 +68,7 @@ class Home extends BaseController
         if ($data) {
 
             if ($this->session->get('wilayah') == $data['lokasi_kerja'] || $this->session->get('wilayah') == "semua lokasi") {
-                if ($this->session->role == 'master admin' and $this->session->nama_jabatan == "admin") {
+                if ($this->session->role == 'master admin' or str_contains($this->session->nama_jabatan, "admin")) {
                     $get_notif_id = $this->notif->where('id_cuti', $id)->first();
                     $update_notif = [
                         'id_notif' => $get_notif_id['id_notif'],
@@ -146,7 +153,7 @@ class Home extends BaseController
         } else if ($url == "permintaan-cuti") {
             // join data pegawai dan permintaan cuti
             if ($this->session->wilayah == "semua lokasi") {
-                $data_cuti = $this->cuti->join('user', 'permintaan_cuti.id_user = user.id_user')->join('jabatan', 'jabatan.id_jabatan = user.id_jabatan')->like('approval_2', 'menunggu')->find();
+                $data_cuti = $this->cuti->join('user', 'permintaan_cuti.id_user = user.id_user')->join('jabatan', 'jabatan.id_jabatan = user.id_jabatan')->like('approval_2','Menunggu')->find();
             } else {
                 if ($this->session->nama_jabatan == "pengawas") {
                     $data_cuti = $this->cuti->join('user', 'permintaan_cuti.id_user = user.id_user')->join('jabatan', 'jabatan.id_jabatan = user.id_jabatan')->where('lokasi_kerja', $this->session->wilayah)->whereNotIn('jabatan.nama_jabatan', [$this->session->nama_jabatan])->like('approval_2', 'menunggu')->find();
@@ -166,6 +173,7 @@ class Home extends BaseController
             $data = [
                 'title' => 'My Account',
                 'data_user' => $data_user,
+                'role' => $this->session->role,
                 'data_jabatan' => $data_jabatan,
                 'data_lokasi' => $this->lokasikerja->findAll(),
             ];
@@ -238,7 +246,7 @@ class Home extends BaseController
             return redirect()->to(base_url('/'));
         }
         if ($user) {
-            if ($this->session->get('wilayah') == $user['lokasi_kerja']) {
+            if ($this->session->get('wilayah') == $user['lokasi_kerja'] || $this->session->get('wilayah') == "semua lokasi") {
                 $n_cuti = $this->nomorCuti->first();
                 if ($n_cuti['nomor_cuti'] < 10) {
                     $n_cuti = "000" . $n_cuti['nomor_cuti'];

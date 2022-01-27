@@ -38,7 +38,7 @@ class Api extends BaseController
             $data = $this->notif->join('permintaan_cuti', 'permintaan_cuti.id_cuti = notif.id_cuti')->join('user', 'user.id_user = permintaan_cuti.id_user')->where('notif.lokasi_kerja', $this->session->wilayah);
         }
         $res = array();
-        if ($this->session->role == 'admin' and $this->session->nama_jabatan == "pengawas") {
+        if ($this->session->role == 'admin' and str_contains($this->session->nama_jabatan, "pengawas")) {
 
             $data_admin = $data->where('status_1', 0)->find();
             $num = 1;
@@ -49,7 +49,7 @@ class Api extends BaseController
                 );
                 $num++;
             }
-        } else if ($this->session->role == 'admin' and $this->session->nama_jabatan == "kasatlak") {
+        } else if ($this->session->role == 'admin' and str_contains($this->session->nama_jabatan, "kasatlak")) {
             $data_admin = $data->where('status_1', 1)->where('status_2', 0)->find();
             $num = 1;
             foreach ($data_admin as $d) {
@@ -59,7 +59,7 @@ class Api extends BaseController
                 );
                 $num++;
             }
-        } else if ($this->session->role == 'admin' and $this->session->nama_jabatan == "pptk pjlp") {
+        } else if ($this->session->role == 'admin' and str_contains($this->session->nama_jabatan, "pptk")) {
             $data_admin = $data->where('status_1', 1)->where('status_2', 1)->where('status_3', 0)->find();
             $num = 1;
             foreach ($data_admin as $d) {
@@ -69,7 +69,7 @@ class Api extends BaseController
                 );
                 $num++;
             }
-        } else if ($this->session->role == 'admin' and $this->session->nama_jabatan == "kasubbag tu") {
+        } else if ($this->session->role == 'admin' and str_contains($this->session->nama_jabatan, "kasubbag tu")) {
             $data_admin = $data->where('status_1', 1)->where('status_2', 1)->where('status_3', 1)->where('status_4', 0)->find();
             $num = 1;
             foreach ($data_admin as $d) {
@@ -79,7 +79,7 @@ class Api extends BaseController
                 );
                 $num++;
             }
-        } else if ($this->session->role == 'admin' and $this->session->nama_jabatan == "ka pusyankeswannak") {
+        } else if ($this->session->role == 'admin' and str_contains($this->session->nama_jabatan, "ka pusyankeswannak")) {
             $data_admin = $data->where('status_1', 1)->where('status_2', 1)->where('status_3', 1)->where('status_4', 1)->where('status_5', 0)->find();
             $num = 1;
             foreach ($data_admin as $d) {
@@ -89,7 +89,7 @@ class Api extends BaseController
                 );
                 $num++;
             }
-        } else if ($this->session->role == 'master admin' and $this->session->nama_jabatan == "admin") {
+        } else if ($this->session->role == 'master admin' and str_contains($this->session->nama_jabatan, "admin")) {
             $data_admin = $data->where('status_6', 0)->find();
             $num = 1;
             foreach ($data_admin as $d) {
@@ -105,7 +105,7 @@ class Api extends BaseController
     public function save($url)
     {
         if ($url == 'pegawai') {
-            if ($this->request->getPost('level') == "admin" || $this->request->getPost('jabatan') == "master admin") {
+            if ($this->request->getPost('level') == "admin" || $this->request->getPost('level') == "master admin") {
                 $jatah = 12;
                 $tahun = date("Y");
             } else {
@@ -809,10 +809,14 @@ class Api extends BaseController
                 ];
             }
             if ($this->pegawai->save($data)) {
-                // renew session foto
+                // renew session
                 $session = session();
                 $session->set('nama', $nama);
                 $session->set('foto', $dok);
+                $session->set('nip', $nip);
+                $session->set('role', $role);
+                $session->set('nama_jabatan', $this->jabatan->where('id_jabatan', $jabatan)->first()['nama_jabatan']);
+                $session->set('wilayah', $lokasi_kerja);
                 $this->session->setFlashdata('success', 'Data berhasil diupdate');
                 if ($this->session->role == "user") {
                     return redirect()->to(base_url('/pegawai/my-account'));

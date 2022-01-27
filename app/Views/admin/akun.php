@@ -62,6 +62,16 @@
                                 <?php endforeach; ?>
                             </select>
                         </div>
+                        <?php if (session()->role != "master admin") : ?>
+                        <div class="form-group">
+                            <label for="level">Level</label>
+                            <select id="role_edit" class="form-select" name="role">
+                                <!-- ambil data divisi -->
+                                <option value="<?= $role ?>"><?= ucwords($role) ?></option>
+
+                            </select>
+                        </div>
+                        <?php else : ?>
                         <div class="form-group">
                             <label for="level">Level</label>
                             <select id="role_edit" class="form-select" name="role">
@@ -73,6 +83,8 @@
 
                             </select>
                         </div>
+                        <?php endif; ?>
+
                         <div class="form-group">
                             <label for="nama">Lokasi Kerja</label>
                             <select id="lokasi_kerja_edit" class="form-select" name="lokasi_kerja">

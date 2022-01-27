@@ -10,6 +10,8 @@ Options All -Indexes
 <IfModule mod_rewrite.c>
 	Options +FollowSymlinks
 	RewriteEngine On
+	RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 	# If you installed CodeIgniter in a subfolder, you will need to
 	# change the following line to match the subfolder you need.

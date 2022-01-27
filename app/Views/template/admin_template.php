@@ -95,7 +95,7 @@
                         <div class="row">
                             <div class="col">
                                 <span class="account-user-avatar">
-                                    <img src="<?= strtoupper(session()->foto) ?>" alt="user-image"
+                                    <img src="<?= session()->foto ?>" alt="user-image"
                                         class="rounded-circle">
 
                                 </span>
@@ -171,12 +171,16 @@
                 <ul class="side-nav">
 
                     <li class="side-nav-title side-nav-item">Dashboard</li>
+                    <?php if(str_contains(session()->nama_jabatan, "kasubbag") || str_contains(session()->nama_jabatan, "pengawas") || str_contains(session()->nama_jabatan, "pptk") ||str_contains(session()->nama_jabatan, "kasatlak") ) : ?>
+                    
+                    <?php else: ?>
                     <li class="side-nav-item">
                         <a href="/home" class="side-nav-link">
                             <i class="uil-home-alt"></i>
                             <span> Home</span>
                         </a>
                     </li>
+                    <?php endif;?>
                     <?php if (session()->role == 'master admin') : ?>
                     <li class="side-nav-item">
                         <a href="/home/data-pegawai" class="side-nav-link">
