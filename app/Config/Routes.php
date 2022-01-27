@@ -50,6 +50,8 @@ $routes->get('/api/notif', 'Api::notif', ['filter' => 'auth']);
 $routes->post('/api/login', 'Api::login');
 $routes->get('/api/logout', 'Api::logout');
 
+$routes->post('/api/cekNIK', 'Api::cekNIK', ['filter' => 'auth']);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

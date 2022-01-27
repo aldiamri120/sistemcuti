@@ -188,11 +188,38 @@ class Api extends BaseController
         }
     }
 
+    // Cek NIK
+    public function cekNIK()
+    {
+        // Pengawas
+        $id_user = $this->session->id_user;
+        $lokasi_kerja = $this->pegawai->where('id_user', $id_user)->where('tahun', date('Y'))->first()['lokasi_kerja'];
+
+        // Pegawai yang mau diambilin cuti
+        $nik = $this->request->getPost('nik');
+        $pegawai = $this->pegawai->where('nip', $nik)->where('lokasi_kerja', $lokasi_kerja)->first();
+
+        // Cek lokasi kerja pegawai
+        if (empty($pegawai)) {
+            $this->session->setFlashdata('error', 'Maaf, NIK yang Anda masukkan tidak berada di lokasi kerja Anda.');
+            return redirect()->to(base_url('/home/permintaan-cuti-pengawas'));
+        }
+
+        $this->session->setFlashdata('pegawai', $pegawai);
+        return redirect()->to(base_url('/home/permintaan-cuti-pengawas'));
+    }
+
     public function cuti()
+    {
+        $id_user = $this->request->getPost("id_pegawai") ? $this->request->getPost("id_pegawai") : $this->session->id_user;
+
+        return $this->buatCuti(($id_user));
+    }
+
+    public function buatCuti($id_user)
     {
         $tanggal_pengajuan = date('Y-m-d');
         $tipe_cuti = $this->request->getPost('tipe_cuti');
-        $id_user = $this->session->id_user;
         $date_start = $this->request->getPost('date_start');
         $date_end = $this->request->getPost('date_end');
         $keterangan = $this->request->getPost('keterangan');
