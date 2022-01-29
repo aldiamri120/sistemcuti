@@ -76,6 +76,10 @@
                             <label for="nama">Foto</label>
                             <input type="file" class="form-control" id="foto_edit" name="foto">
                         </div>
+                        <div class="form-group">
+                            <label for="nama">TTD</label>
+                            <input type="file" class="form-control" id="ttd" name="ttd">
+                        </div>
                         <input type="hidden" id="id_user_edit" name="id_user" value="<?= $data_user['id_user'] ?>">
                     </div>
                     <div class="modal-footer">

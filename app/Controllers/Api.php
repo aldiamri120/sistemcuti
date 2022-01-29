@@ -781,7 +781,9 @@ class Api extends BaseController
             $id_pjlp = $this->request->getPost('id_pjlp');
             $lokasi_kerja = $this->request->getPost('lokasi_kerja');
             $foto = $this->request->getFile('foto');
+            $ttd = $this->request->getFile('ttd');
             $dok = "";
+            $ttd_up = "";
             $nama_foto = "";
             $file_ok = "0";
             if ($foto->getName() != "") {
@@ -811,6 +813,34 @@ class Api extends BaseController
                 $data_foto2 = $this->pegawai->where("id_user", $id_user)->first();
                 $dok = $data_foto2['foto'];
             }
+            
+            if ($ttd->getName() != "") {
+                if (!$this->validate([
+                    'ttd' => [
+                        'rules' => 'uploaded[ttd]|mime_in[ttd,image/jpg,image/jpeg,image/gif,image/png]|max_size[ttd,2024]',
+                        'errors' => [
+                            'uploaded' => 'Harus Ada File yang diupload',
+                            'mime_in' => 'File harus berupa gambar',
+                            'max_size' => 'Ukuran File Maksimal 2 MB'
+                        ]
+                    ]
+                ])) {
+                    session()->setFlashdata('error', $this->validator->listErrors());
+                    return redirect()->to('/home/my-acccount');
+                } else {
+                    $file_ok = "1";
+                    $data_ttd = $ttd;
+                    $nama_ttd = rand() . "_" . $data_ttd->getName();
+                    $ttd_up = "/upload/ttd-pegawai/$nama_ttd";
+                    if ($file_ok == "1") {
+                        $data_ttd->move('upload/ttd-pegawai/', $nama_ttd);
+                    }
+                }
+            } else {
+                // ambil ttd user 
+                $data_ttd2 = $this->pegawai->where("id_user", $id_user)->first();
+                $ttd_up = $data_ttd2['ttd'];
+            }
             if ($password == "") {
                 $data = [
                     'id_user' => $id_user,
@@ -821,6 +851,7 @@ class Api extends BaseController
                     'id_jabatan' => $jabatan,
                     'lokasi_kerja' => $lokasi_kerja,
                     'foto' => $dok,
+                    'ttd' => $ttd_up,
                 ];
             } else {
                 $data = [
@@ -833,13 +864,16 @@ class Api extends BaseController
                     'id_jabatan' => $jabatan,
                     'lokasi_kerja' => $lokasi_kerja,
                     'foto' => $dok,
+                    'ttd' => $ttd_up,
                 ];
             }
+
             if ($this->pegawai->save($data)) {
                 // renew session
                 $session = session();
                 $session->set('nama', $nama);
                 $session->set('foto', $dok);
+                $session->set('ttd', $ttd_up);
                 $session->set('nip', $nip);
                 $session->set('role', $role);
                 $session->set('nama_jabatan', $this->jabatan->where('id_jabatan', $jabatan)->first()['nama_jabatan']);

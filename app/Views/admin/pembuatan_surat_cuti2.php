@@ -339,10 +339,11 @@ Tanggal : <?= date('d/m/Y') ?>
                 </tr>
                 <tr>
                     <td class="md text-center" colspan='2'>
-                        <pre>Hormat Saya
+                        <pre>Hormat
 
 
-
+                        <img src="
+                        <?= $data['ttd'] ?>" width="70px">
 
 <?= strtoupper($data['nama']) ?>
 
